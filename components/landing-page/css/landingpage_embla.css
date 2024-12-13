@@ -1,0 +1,206 @@
+#landingpage .embla {
+  margin: 70px; /* Default margin for larger screens */
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: auto;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --slide-spacing-sm: 1.6rem;
+  --slide-size-sm: 50%;
+  --slide-spacing-lg: 2rem;
+  --slide-size-lg: calc(100% / 3);
+}
+
+/* Viewport Container */
+#landingpage .embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+#landingpage .embla__container {
+  display: flex;
+  backface-visibility: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+/* Adjust for medium screens */
+@media (min-width: 750px) {
+  #landingpage .embla__container {
+    margin-left: calc(var(--slide-spacing-sm) * -1);
+  }
+}
+
+/* Adjust for larger screens */
+@media (min-width: 1200px) {
+  #landingpage .embla__container {
+    margin-left: calc(var(--slide-spacing-lg) * -1);
+  }
+}
+
+/* Slide Styling */
+#landingpage .embla__slide {
+  min-width: 300px;
+  flex: 0 0 var(--slide-size);
+  padding-left: var(--slide-spacing);
+}
+
+/* Medium screens (750px) slide adjustments */
+@media (min-width: 750px) {
+  #landingpage .embla__slide {
+    flex: 0 0 var(--slide-size-sm);
+    padding-left: var(--slide-spacing-sm);
+  }
+}
+
+/* Large screens (1200px) slide adjustments */
+@media (min-width: 1200px) {
+  #landingpage .embla__slide {
+    flex: 0 0 var(--slide-size-lg);
+    padding-left: var(--slide-spacing-lg);
+  }
+}
+
+/* Slide Inner Container */
+#landingpage .embla__slide__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for the card */
+  overflow: hidden;
+  width: 100%;
+  height: 250px; /* Custom height */
+}
+
+/* Slide Images */
+#landingpage .embla__slide__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Ensure the image fits inside the rounded card */
+  border-radius: 20px;
+}
+
+/* Arrow Button Styling */
+#landingpage .embla__button--prev,
+#landingpage .embla__button--next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0.7rem;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease; /* Push animation */
+}
+
+#landingpage .embla__button--prev {
+  left: -26px; /* Push the button halfway outside the image */
+}
+
+#landingpage .embla__button--next {
+  right: -26px;
+}
+
+/* Arrow Button Icon */
+#landingpage .embla__button__svg {
+  width: 20px;
+  height: 20px;
+  fill: #333; /* Darker arrow color */
+}
+
+/* Arrow Button Active State */
+#landingpage .embla__button:active {
+  transform: translateY(-50%) scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Shadow reduction on click */
+}
+
+/* Disabled State for Arrows */
+#landingpage .embla__button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Dots Navigation */
+#landingpage .embla__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem;
+}
+
+/* Dot Styling */
+#landingpage .embla__dot {
+  background-color: rgba(255, 255, 255, 0.1);
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  width: 2.6rem;
+  height: 2.6rem;
+  margin: 0 0.4rem;
+  border-radius: 50%;
+}
+
+#landingpage .embla__dot:after {
+  content: '';
+  width: 1.4rem;
+  height: 1.4rem;
+  border-radius: 50%;
+  background-color: var(--detail-medium-contrast);
+  box-shadow: inset 0 0 0 0.2rem rgba(255, 255, 255, 0.3);
+}
+
+#landingpage .embla__dot--selected:after {
+  background-color: var(--text-body);
+  box-shadow: inset 0 0 0 0.2rem rgb(255, 255, 255);
+}
+
+/* Additional Carousel Structure Styling */
+#landingpage .embla__controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+#landingpage .embla__slide__number {
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  user-select: none;
+}
+
+/* Media Query for smaller screens (575px and smaller) */
+@media (max-width: 575px) {
+  #landingpage .embla {
+    margin: 0px; /* Reduced margin for smaller screens */
+    padding: 0px; /* Reduced padding */
+  }
+}
+
+/* Media Query for medium screens (1047px and smaller) */
+@media (max-width: 1047px) {
+  #landingpage .embla {
+    margin: 40px; /* Decrease margin for medium screens */
+    padding: 10px; /* Reduce padding */
+  }
+}

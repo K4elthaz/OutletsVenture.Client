@@ -1,0 +1,215 @@
+/* Main carousel container styles */
+
+#homepage .embla {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  max-width: 100%;
+  --slide-height: 19rem;
+  --slide-spacing: 1rem;
+  --slide-size: 100%;
+  --slide-spacing-lg: 2rem;
+  --slide-spacing-sm: 1.6rem;
+  margin: 70px;
+}
+
+#homepage .embla__viewport {
+  overflow: hidden;
+  width: 100%;
+}
+
+#homepage .embla__container {
+  display: flex;
+  backface-visibility: hidden;
+  touch-action: pan-y pinch-zoom;
+}
+
+@media (min-width: 750px) {
+  #homepage .embla__container {
+    margin-left: calc(var(--slide-spacing-sm) * -1);
+  }
+}
+
+@media (min-width: 1200px) {
+  #homepage .embla__container {
+    margin-left: calc(var(--slide-spacing-lg) * -1);
+  }
+}
+
+#homepage .embla__slide {
+  min-width: 100%; /* Full width */
+  flex: 0 0 100%; /* Full width slide */
+  padding-left: 0; /* Remove padding for full width */
+}
+
+@media (min-width: 750px) {
+  #homepage .embla__slide {
+    flex: 0 0 var(--slide-size-sm);
+    padding-left: var(--slide-spacing-sm);
+  }
+}
+
+@media (min-width: 1200px) {
+  #homepage .embla__slide {
+    flex: 0 0 var(--slide-size-lg);
+    padding-left: var(--slide-spacing-lg);
+  }
+}
+
+#homepage .embla__slide__inner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  border-radius: 20px; /* Rounded corners */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* Shadow for the card */
+  overflow: hidden;
+  width: 100%; /* Adjust width and height to your liking */
+  height: 300px; /* Custom height */
+}
+
+#homepage .embla__slide__img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover; /* Make sure the image fits inside the rounded card */
+  border-radius: 20px; /* Same rounded corners as the card */
+}
+
+/* Arrow button positioning and styles */
+#homepage .embla__button--prev,
+#homepage .embla__button--next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background-color: #fff;
+  border: none;
+  cursor: pointer;
+  padding: 0.7rem;
+  z-index: 1;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.2s ease; /* Push animation */
+}
+
+#homepage .embla__button--prev {
+  left: -26px; /* Push the button halfway outside the image */
+}
+
+#homepage .embla__button--next {
+  right: -26px; /* Push the button halfway outside the image */
+}
+
+/* Arrow SVG inside the button */
+#homepage .embla__button__svg {
+  width: 20px; /* Smaller arrow */
+  height: 20px;
+  fill: #333; /* Darker arrow color */
+}
+
+/* On click "push" animation */
+#homepage .embla__button:active {
+  transform: translateY(-50%) scale(0.95); /* Slightly shrink on click */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3); /* Shadow reduction on click */
+}
+
+/* Button disabled state */
+#homepage .embla__button:disabled {
+  opacity: 0.5; /* Make disabled buttons less visible */
+  pointer-events: none;
+}
+
+/* Dots container */
+#homepage .embla__dots {
+  display: flex;
+  justify-content: center;
+  margin-top: 2rem; /* Space between slides and dots */
+}
+
+#homepage .embla__dot {
+  background-color: rgba(139, 0, 0, 0.422); /* Set the background color to dark red */
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  border: none;
+  width: 5rem; /* Make the dot oblong */
+  height: 1.2rem; /* Make the dot flat */
+  margin: 0 0.4rem; /* Space between dots */
+  border-radius: 1.2rem; /* Make the dots oblong */
+}
+
+#homepage .embla__dot:after {
+  content: ''; /* Remove inner dot */
+  display: none;
+}
+
+#homepage .embla__dot--selected {
+  background-color: darkred; /* Slightly darker red for the selected dot */
+}
+
+/* Additional styles for carousel structure */
+#homepage .embla__controls {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  justify-content: space-between;
+  gap: 1.2rem;
+  margin-top: 1.8rem;
+}
+
+#homepage .embla__slide__number {
+  box-shadow: inset 0 0 0 0.2rem var(--detail-medium-contrast);
+  border-radius: 1.8rem;
+  font-size: 4rem;
+  font-weight: 600;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: var(--slide-height);
+  user-select: none;
+}
+
+/* Media Queries */
+@media (max-width: 575px) {
+  #homepage .embla {
+    padding: 20px; /* Reduced padding for smaller screens */
+  }
+}
+
+
+
+/*Homepage Slider*/
+#homepageslider .embla {
+  max-width: 100%;
+  margin: auto;
+  --slide-height: 60rem;
+  --slide-spacing: 1rem;
+  --slide-size: 70%;
+  margin-top: 10rem;
+}
+#homepageslider .embla__viewport {
+  overflow: hidden;
+}
+#homepageslider .embla__container {
+  display: flex;
+  touch-action: pan-y pinch-zoom;
+  margin-left: calc(var(--slide-spacing) * -1);
+}
+#homepageslider .embla__slide {
+  transform: translate3d(0, 0, 0);
+  flex: 0 0 var(--slide-size);
+  min-width: 100%;
+  padding-left: var(--slide-spacing);
+}
+#homepageslider .embla__slide__img {
+  display: block;
+  height: var(--slide-height);
+  width: 100%;
+  object-fit: cover;
+}
