@@ -86,7 +86,7 @@ const Dine = () => {
         <img
           src={shop.photo}
           alt={shop.title}
-          className="w-6 h-6 rounded-full mr-2 object-contain"
+          className="w-6 h-6 rounded-full mr-2"
         />
         <span>{shop.title}</span>
       </div>

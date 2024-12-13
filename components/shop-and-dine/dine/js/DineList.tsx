@@ -76,7 +76,7 @@ const DineList = ({ dineName = undefined }: { dineName?: string }) => {
                 <img
                   src={dine.photo}
                   alt={dine.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain"
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{dine.title}</h2>
