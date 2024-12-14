@@ -527,7 +527,7 @@ const MallMap = () => {
           >
             <Home />
           </IconButton>
-          <IconButton
+          {/* <IconButton
             sx={iconButtonStyle}
             // onClick={() => handleCategoryChange("emergency")}
             onClick={() => {
@@ -535,13 +535,13 @@ const MallMap = () => {
             }}
           >
             <Warning />
-          </IconButton>
-          <IconButton
+          </IconButton> */}
+          {/* <IconButton
             sx={iconButtonStyle}
             onClick={() => handleCategoryChange("amenities")}
           >
             <AccessibleForward />
-          </IconButton>
+          </IconButton> */}
         </Box>
 
         <Box
