@@ -76,7 +76,7 @@ const ShopList = ({ shopName = undefined }: { shopName?: string }) => {
                 <img
                   src={shop.photo}
                   alt={shop.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain"
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{shop.title}</h2>

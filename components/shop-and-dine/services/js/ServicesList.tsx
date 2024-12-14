@@ -76,7 +76,7 @@ const ServiceList = ({ serviceName = undefined }: { serviceName?: string }) => {
                 <img
                   src={service.photo}
                   alt={service.title}
-                  className="w-full h-48 object-cover"
+                  className="w-full h-48 object-contain"
                 />
                 <div className="p-4">
                   <h2 className="text-lg font-semibold">{service.title}</h2>

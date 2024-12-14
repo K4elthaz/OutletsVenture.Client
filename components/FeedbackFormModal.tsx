@@ -134,7 +134,7 @@ export default function FeedbackFormModal() {
         <Chat />
       </Fab>
       <Slide direction="up" in={open} mountOnEnter unmountOnExit>
-        <Box className="fixed bottom-20 right-4 w-80 bg-white rounded-lg shadow-lg z-50 overflow-hidden">
+        <Box className="fixed bottom-20 right-4 w-96 bg-white rounded-lg shadow-lg z-50 overflow-hidden">
           <Box className="bg-red-500 p-2 flex justify-between items-center">
             <Typography variant="h6" className="text-white font-bold">
               Feedback Form
