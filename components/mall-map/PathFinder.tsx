@@ -24,7 +24,7 @@ const PathFinder = () => {
     Record<string, number>
   >({});
   const SELECTION_WINDOW = 10 * 60 * 1000; // 10 minutes in milliseconds
-  const CONGESTION_THRESHOLD = 10; // Define the threshold for congestion
+  const CONGESTION_THRESHOLD = 35; // Define the threshold for congestion
   const [reversedRoute, setReversedRoute] = useState({
     origin: "",
     destination: "",
