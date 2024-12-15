@@ -8,7 +8,7 @@ import {
   ArrowDownwardOutlined,
   ArrowUpwardOutlined,
 } from "@mui/icons-material";
-import { Button } from "antd";
+import { Button, message } from "antd";
 
 type Point = [number, number];
 type Shop = { id: string; title: string };
@@ -270,6 +270,15 @@ const PathFinder = () => {
 
     const origin = reversedRoute.origin || selectedShop;
     const destination = reversedRoute.destination || selectedDestination;
+
+    if (
+      origin?.includes("emergency-amenities") ||
+      destination?.includes("emergency-amenities")
+    ) {
+      message.error("Cannot reverse emergency and amenities route");
+      return;
+    }
+
     setReversedRoute({
       origin: destination,
       destination: origin,
@@ -299,11 +308,13 @@ const PathFinder = () => {
               className="w-full border border-gray-300 rounded-lg px-3 py-2 text-gray-700 focus:ring-2 focus:ring-blue-500 focus:outline-none"
             >
               <option value="">Select Origin</option>
-              {shops.map((shop) => (
-                <option key={shop.id} value={shop.id}>
-                  {shop.title}
-                </option>
-              ))}
+              {shops
+                ?.filter((shop) => !shop?.id?.includes("emergency-amenities"))
+                ?.map((shop) => (
+                  <option key={shop.id} value={shop.id}>
+                    {shop.title}
+                  </option>
+                ))}
             </select>
           </div>
 
