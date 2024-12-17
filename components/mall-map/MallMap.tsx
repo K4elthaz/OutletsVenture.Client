@@ -161,6 +161,10 @@ const MallMap = () => {
   }, [searchTerm]);
 
   const handleMapButtonClick = (category: string, map: string) => {
+    if (map === "Aboitiz Pitch") {
+      map = "AboitizPitch";
+    }
+
     setIsEmergencyMapEnabled(false);
     setIsPathFinderEnabled(false);
     setIsLoading(false);
@@ -172,6 +176,32 @@ const MallMap = () => {
         const data = snapshot.val();
         setShops(data || []);
       });
+
+      const dinesMapsRef = dbRef(db, `${mallMap}/${map}/Food`);
+      onValue(dinesMapsRef, (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+        const filteredDines = Object.values(data)?.filter(
+          (shop: any) => shop?.id
+        ) as any[];
+        setShops((prev) => {
+          const prevData = Object.values(prev)?.filter((p) => p?.id) as any[];
+          return [...prevData, ...filteredDines];
+        });
+      });
+      const servicesRef = dbRef(db, `${mallMap}/${map}/Service`);
+      onValue(servicesRef, (snapshot) => {
+        const data = snapshot.val();
+        if (!data) return;
+        const filteredDines = Object.values(data)?.filter(
+          (shop: any) => shop?.id
+        ) as any[];
+        setShops((prev) => {
+          const prevData = Object.values(prev)?.filter((p) => p?.id) as any[];
+          return [...prevData, ...filteredDines];
+        });
+      });
+      
     } else if (category === "amenities") {
       setActiveMap(map);
     } else {
