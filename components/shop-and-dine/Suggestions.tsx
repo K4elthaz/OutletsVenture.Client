@@ -116,3 +116,41 @@ export const useShopData = (shopData: ShopData[], searchTerm: string) => {
 
   return suggestions;
 };
+
+export function getRecommendedShops(
+  currentShop: ShopData,
+  allShops: ShopData[],
+  limit = 8
+) {
+  // Remove current shop from recommendations
+  const otherShops = allShops.filter((shop) => shop.id !== currentShop.id);
+  // Get the combined text of current shop
+  const currentShopText = `${currentShop.title.toLowerCase()} ${currentShop.description.toLowerCase()}`;
+  const currentWords = new Set(
+    currentShopText.split(/\W+/).filter((word) => word.length > 2)
+  );
+  // Calculate similarity scores for each shop
+  const shopsWithScores = otherShops.map((shop) => {
+    const shopText = `${shop.title.toLowerCase()} ${shop.description.toLowerCase()}`;
+    const shopWords = new Set(
+      shopText.split(/\W+/).filter((word) => word.length > 2)
+    );
+    // Calculate Jaccard similarity (intersection over union)
+    const intersection = new Set(
+      // @ts-ignore
+      [...currentWords].filter((word) => shopWords.has(word))
+    );
+    // @ts-ignore
+    const union = new Set([...currentWords, ...shopWords]);
+    const similarityScore = intersection.size / union.size;
+    return {
+      ...shop,
+      score: similarityScore,
+    };
+  });
+  // Sort by similarity score and get top recommendations
+  return shopsWithScores
+    .sort((a, b) => b.score - a.score)
+    .slice(0, limit)
+    .map(({ score, ...shop }) => shop);
+}

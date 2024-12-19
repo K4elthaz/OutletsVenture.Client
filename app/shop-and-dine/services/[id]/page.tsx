@@ -6,16 +6,30 @@ import PhoneIcon from "@mui/icons-material/Phone";
 import EmailIcon from "@mui/icons-material/Email";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import { ServiceData } from "@/utils/Types";
-import { ref as dbRef, onValue } from "firebase/database";
+import { ref as dbRef, onValue, update } from "firebase/database";
 import { db } from "@/utils/firebase";
 import { cloudPano, servicesReference } from "@/utils/References";
 import Loading from "@/components/loading/Loading";
+import { getRecommendedShops } from "@/components/shop-and-dine/Suggestions";
 
 const ServiceDetails = () => {
   const [service, setService] = useState<ServiceData | null>(null);
   const [pageLoading, setPageLoading] = useState(true);
   const { id } = useParams();
   const router = useRouter();
+  const [otherShops, setOtherShops] = useState<ServiceData[]>([]);
+
+  const OnShopClickedEvent = async (shop: ServiceData) => {
+    await update(dbRef(db, `${servicesReference}/${shop.id}`), {
+      clicks: shop.clicks ? shop.clicks + 1 : 1,
+    });
+
+    await update(dbRef(db, `${servicesReference}/${shop.id}`), {
+      searchs: shop.searchs ? shop.searchs + 1 : 1,
+    });
+
+    router.push(`/shop-and-dine/shop/${encodeURIComponent(shop.id)}`);
+  };
 
   useEffect(() => {
     const shopRef = dbRef(db, `${servicesReference}/${id}`);
@@ -53,6 +67,43 @@ const ServiceDetails = () => {
     return () => unsubscribe();
   }, [id]);
 
+  useEffect(() => {
+    const shopsRef = dbRef(db, servicesReference);
+
+    const unsubscribe = onValue(shopsRef, (snapshot) => {
+      if (snapshot.exists()) {
+        const shopList: ServiceData[] = [];
+
+        snapshot.forEach((childSnapshot) => {
+          const shopData = childSnapshot.val();
+
+          const shop: ServiceData = {
+            id: shopData.id,
+            title: shopData.title,
+            description: shopData.description,
+            photo: shopData.photo,
+            openingHour: shopData.openingHour,
+            location: shopData.location,
+            contactInformation: shopData.contactInformation,
+            email: shopData.email,
+            closingHour: shopData.closingHours,
+            searchs: shopData.searchs,
+            clicks: shopData.clicks,
+            cloudPanoSceneID: shopData.cloudPanoSceneID
+              ? shopData.cloudPanoSceneID
+              : "",
+          };
+
+          shopList.push(shop);
+        });
+
+        setOtherShops(shopList?.filter((shop) => shop.id?.toString() !== id));
+      }
+    });
+
+    return () => unsubscribe();
+  }, [id]);
+
   if (pageLoading) {
     return <Loading />;
   }
@@ -60,6 +111,8 @@ const ServiceDetails = () => {
   if (!service) {
     notFound();
   }
+
+  const recommendedShops = getRecommendedShops(service, otherShops);
 
   return (
     <div
@@ -176,6 +229,57 @@ const ServiceDetails = () => {
                 </button>
               </div>
             </div>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-12 space-y-8 max-w-screen-xl mx-auto px-4 lg:px-8">
+        <div className="text-center lg:text-left lg:w-full mt-4 mb-4 lg:mb-0">
+          <h1 className="text-5xl lg:text-4xl font-extrabold text-red-800 mb-2 mt-6">
+            Also you may like
+          </h1>
+          <p className="text-xl text-gray-600">
+            Discover amazing deals and exclusive offers!
+          </p>
+        </div>
+
+        <div className="container mx-auto px-4 sm:px-8">
+          {/* Grid layout for shops */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            {recommendedShops.length > 0
+              ? recommendedShops.map((shop: ServiceData) => (
+                  <div
+                    key={shop.title}
+                    className="bg-white shadow-md rounded-lg overflow-hidden"
+                  >
+                    <img
+                      src={shop.photo}
+                      alt={shop.title}
+                      className="w-full h-48 object-cover"
+                    />
+                    <div className="p-4">
+                      <h2 className="text-lg font-semibold">{shop.title}</h2>
+                      <p className="text-gray-600">{shop.openingHour}</p>
+                      <p className="text-gray-600">{shop.location}</p>
+
+                      {/* Contact Information */}
+                      <p className="text-gray-600">
+                        Contact: {shop.contactInformation}
+                      </p>
+
+                      {/* Widened and Right-Aligned Visit Button */}
+                      <div className="mt-4 flex justify-end">
+                        <a
+                          onClick={() => OnShopClickedEvent(shop)}
+                          className="bg-gradient-to-r from-red-600 to-red-800 text-white py-2 px-10 rounded-full text-center inline-block shadow-lg hover:from-red-700 hover:to-red-900 transition duration-300"
+                        >
+                          Visit
+                        </a>
+                      </div>
+                    </div>
+                  </div>
+                ))
+              : null}
           </div>
         </div>
       </div>
